@@ -1,0 +1,17 @@
+td img{
+    height: 40px;
+}
+
+#phone{
+    display: none;
+}
+
+
+@media (max-width: 1000px) {
+    #phone{
+        display: block;
+    }
+    #desktop{
+        display: none;
+    }
+}

@@ -1,0 +1,16 @@
+<div>
+    <div class="mb-3">
+      <label class="form-label">Email</label>
+      <input type="email" class="form-control" (focus)="clear()" [(ngModel)]="lm.email">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Password</label>
+      <input type="password" class="form-control" [(ngModel)]="lm.password">
+    </div>
+    <button type="submit" class="btn btn-primary" (click)="login()">Login</button>
+</div>
+
+<br/>
+<div class="alert alert-danger" role="alert" *ngIf="isError">
+    HIBA! A felhasználónév vagy a jelszó helytelen!
+</div>

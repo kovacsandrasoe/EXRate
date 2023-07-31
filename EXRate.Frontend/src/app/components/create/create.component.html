@@ -1,0 +1,27 @@
+<div>
+    <div class="mb-3" *ngIf="withParam">
+      <label class="form-label">Currency</label>
+      <input type="text" class="form-control" [(ngModel)]="rate.current" disabled>
+    </div>
+    <div class="mb-3" *ngIf="!withParam">
+        <label class="form-label">Currency</label>
+        <select class="form-select" [(ngModel)]="selectedCurrency" (change)="updateValue()" >
+            <option *ngFor="let x of rateService.rates" [value]="x.current">
+            {{x.current.toUpperCase()}} ({{x.value}} Ft)
+            </option>
+        </select>
+      </div>
+    <div class="mb-3" *ngIf="withParam">
+      <label class="form-label">Value</label>
+      <input type="number" class="form-control" [(ngModel)]="rate.value" disabled>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Comment</label>
+        <input type="text" class="form-control" [(ngModel)]="record.comment">
+      </div>
+    <button type="submit" class="btn btn-primary" (click)="send()">Save to Db</button>
+</div>
+
+<br/>
+
+

@@ -67,7 +67,9 @@ namespace EXRate.Backend.Controllers
                 var claim = new List<Claim>();
                 if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
                 {
-                    claim.Add(new Claim(JwtRegisteredClaimNames.Sub, user.Email));
+                    claim.Add(new Claim(JwtRegisteredClaimNames.Sub, user.Id));
+                    claim.Add(new Claim(JwtRegisteredClaimNames.Name, user.Email));
+                    claim.Add(new Claim(JwtRegisteredClaimNames.NameId, user.Id));
                     claim.Add(new Claim(JwtRegisteredClaimNames.Email, user.Email));
                     claim.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
                     claim.Add(new Claim("id", user.Id));

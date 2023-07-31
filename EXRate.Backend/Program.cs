@@ -20,6 +20,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IMNBArfolyamServiceSoapClient, MNBArfolyamServiceSoapClient>();
 builder.Services.AddTransient<IMNBService, MNBService>();
 builder.Services.AddTransient<IRateRecordRepository, RateRecordRepository>();
+builder.Services.AddTransient<IAuthManager, AuthManager>();
 
 builder.Services.AddDbContext<EXRateContext>(options =>
                 options.UseInMemoryDatabase("db"));

@@ -22,6 +22,9 @@ namespace EXRate.Backend.Models
         [Required]
         public DateTime TimeAdded { get; set; }
 
+        [Required]
+        public string Creator { get; set; }
+
         public RateRecord()
         {
             TimeAdded = DateTime.Now;

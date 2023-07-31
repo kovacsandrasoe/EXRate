@@ -1,1 +1,5 @@
-<p>list works!</p>
+<ul>
+    <li *ngFor="let x of records | async">
+        {{x.currency}}
+    </li>
+</ul>

@@ -1,5 +1,6 @@
 ﻿using EXRate.Backend.Models;
 using EXRate.Backend.Repository;
+using EXRate.Backend.Services;
 using EXRate.Backend.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -13,10 +14,14 @@ namespace EXRate.Backend.Controllers
     public class RateRecordController : ControllerBase
     {
         IRateRecordRepository repo;
+        IMNBService mnb;
+        IAuthManager auth;
 
-        public RateRecordController(IRateRecordRepository repo)
+        public RateRecordController(IRateRecordRepository repo, IMNBService mnb, IAuthManager auth)
         {
             this.repo = repo;
+            this.mnb = mnb;
+            this.auth = auth;
         }
 
         [HttpPost]
@@ -27,7 +32,9 @@ namespace EXRate.Backend.Controllers
                 RateRecord record = new RateRecord();
                 record.Comment = r.Comment;
                 record.Currency = r.Currency;
-                record.Value = r.Value;
+                record.Value = (await mnb.GetRates()).FirstOrDefault(z => z.Current == r.Currency).Value;
+                record.TimeAdded = DateTime.Now;
+                record.Creator = await this.auth.GetCurrentUserId(this.User);
                 await repo.AddRateRecordAsync(record);
             }
             catch(Exception e)
@@ -40,7 +47,8 @@ namespace EXRate.Backend.Controllers
         [HttpGet]
         public async Task<IEnumerable<RateRecord>> Get()
         {
-            return await repo.GetRecords();
+            var userId = await this.auth.GetCurrentUserId(this.User);
+            return (await repo.GetRecords()).Where(t => t.Creator == userId);
         }
 
 

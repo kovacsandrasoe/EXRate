@@ -10,14 +10,14 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let x of rateService.rates">
+          <tr *ngFor="let x of rates | async">
             <td>
                 <img src="/assets/flags/{{x.current.toLowerCase()}}.svg" />
             </td>
             <td>{{x.current}}</td>
             <td>{{x.value}} Ft</td>
             <td>
-                <button class="btn btn-sm btn-secondary">Save to DB</button>
+                <button routerLink="/create/{{x.current}}" class="btn btn-sm btn-secondary">Save to DB</button>
             </td>
           </tr>
         </tbody>
@@ -25,13 +25,13 @@
 </div>
 <div id="desktop">
     <div class="row row-cols-1 row-cols-md-6 g-4">
-        <div class="col" *ngFor="let x of rateService.rates">
+        <div class="col" *ngFor="let x of rates | async">
           <div class="card">
             <img src="/assets/flags/{{x.current.toLowerCase()}}.svg" class="card-img-top" alt="...">
             <div class="card-body">
               <h5 class="card-title">{{x.current}}</h5>
               <p class="card-text">{{x.value}} Ft</p>
-              <button class="btn btn-sm btn-secondary">Save to DB</button>
+              <button routerLink="/create/{{x.current}}" class="btn btn-sm btn-secondary">Save to DB</button>
             </div>
           </div>
         </div>

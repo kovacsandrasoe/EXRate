@@ -8,8 +8,6 @@ namespace EXRate.Backend.ViewModels
         [Required]
         public string Currency { get; set; }
 
-        [Required]
-        public double Value { get; set; }
 
         [StringLength(100)]
         public string? Comment { get; set; }

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Rate } from 'src/app/models/rate';
 import { RateService } from 'src/app/services/rate.service';
 
 @Component({
@@ -8,8 +10,9 @@ import { RateService } from 'src/app/services/rate.service';
 })
 export class RateComponent implements OnInit {
 
+  rates !: Observable<Rate[]>;
   constructor(public rateService: RateService) {
-    
+    this.rates = rateService.getRates();
   }
 
   ngOnInit(): void {

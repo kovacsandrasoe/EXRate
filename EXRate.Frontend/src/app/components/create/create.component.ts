@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Rate } from 'src/app/models/rate';
 import { Raterecord } from 'src/app/models/raterecord';
 import { RateService } from 'src/app/services/rate.service';
@@ -16,22 +16,29 @@ export class CreateComponent implements OnInit {
   withParam: boolean = false;
   record: Raterecord = new Raterecord();
 
-  constructor(private route: ActivatedRoute, public rateService: RateService) {
-    rateService.getRates().then(z => {
+  constructor(private route: ActivatedRoute, public rateService: RateService, private router: Router) {
+    rateService.getRates().subscribe(z => {
       this.route.params.subscribe(t => {
-        this.rate = rateService.findByCurrency(t['id']) ?? new Rate();
-        this.withParam = true;
+        rateService.findByCurrency(t['id']).then(z => {
+          this.rate = z;
+          if (this.rate.current == ''){
+            this.router.navigate(['rate']);
+          }
+          this.withParam = true;
+        });
       });
     });
   }
 
   updateValue(){
-    this.rate = this.rateService.findByCurrency(this.selectedCurrency) ?? new Rate();
+    this.rateService.findByCurrency(this.selectedCurrency).then(z => {
+      this.rate = z;
+    });
   }
 
   send(){
-    this.record.current = this.rate.current;
-    
+    this.record.currency = this.rate.current;
+    this.rateService.addRecord(this.record);
   }
 
   ngOnInit(): void {

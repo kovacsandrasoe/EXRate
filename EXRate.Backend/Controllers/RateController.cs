@@ -8,6 +8,7 @@ namespace EXRate.Backend.Controllers
 {
     [Route("[controller]")]
     [ApiController]
+    [Authorize]
     public class RateController : ControllerBase
     {
         IMNBService service;

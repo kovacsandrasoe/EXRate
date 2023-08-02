@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography.Xml;
 using System.Text;
 
 namespace EXRate.Backend.Controllers
@@ -45,7 +46,16 @@ namespace EXRate.Backend.Controllers
                 {
                     return Ok();
                 }
-                return Ok();
+                else
+                {
+                    Errorinfo ei = new Errorinfo("");
+                    foreach (var item in result.Errors)
+                    {
+                        ei.Message += item.Description + ",";
+                    }
+                    ei.Message = ei.Message.Substring(0, ei.Message.Length - 1);
+                    return BadRequest(ei);
+                }
 
             }
             catch (Exception ex)

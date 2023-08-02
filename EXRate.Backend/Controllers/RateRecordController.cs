@@ -1,4 +1,5 @@
-﻿using EXRate.Backend.Models;
+﻿using EXRate.Backend.Logic;
+using EXRate.Backend.Models;
 using EXRate.Backend.Repository;
 using EXRate.Backend.Services;
 using EXRate.Backend.ViewModels;
@@ -13,15 +14,11 @@ namespace EXRate.Backend.Controllers
     [Authorize]
     public class RateRecordController : ControllerBase
     {
-        IRateRecordRepository repo;
-        IMNBService mnb;
-        IAuthManager auth;
+        IRateLogic logic;
 
-        public RateRecordController(IRateRecordRepository repo, IMNBService mnb, IAuthManager auth)
+        public RateRecordController(IRateLogic logic)
         {
-            this.repo = repo;
-            this.mnb = mnb;
-            this.auth = auth;
+            this.logic = logic;
         }
 
         [HttpPost]
@@ -29,13 +26,7 @@ namespace EXRate.Backend.Controllers
         {
             try
             {
-                RateRecord record = new RateRecord();
-                record.Comment = r.Comment;
-                record.Currency = r.Currency;
-                record.Value = (await mnb.GetRates()).FirstOrDefault(z => z.Current == r.Currency).Value;
-                record.TimeAdded = DateTime.Now;
-                record.Creator = await this.auth.GetCurrentUserId(this.User);
-                await repo.AddRateRecordAsync(record);
+                await logic.Add(r, this.User);
             }
             catch(Exception e)
             {
@@ -47,8 +38,35 @@ namespace EXRate.Backend.Controllers
         [HttpGet]
         public async Task<IEnumerable<RateRecord>> Get()
         {
-            var userId = await this.auth.GetCurrentUserId(this.User);
-            return (await repo.GetRecords()).Where(t => t.Creator == userId);
+            return await logic.Get(this.User);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(string id)
+        {
+            try
+            {
+                await logic.Delete(id, this.User);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Errorinfo(ex.Message));
+            }
+            return Ok();
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> Update(RateRecord r)
+        {
+            try
+            {
+                await logic.Update(r, this.User);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Errorinfo(ex.Message));
+            }
+            return Ok();
         }
 
 

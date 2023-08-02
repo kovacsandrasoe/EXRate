@@ -1,5 +1,33 @@
-<ul>
-    <li *ngFor="let x of records | async">
-        {{x.currency}}
-    </li>
-</ul>
+<h1>My records</h1>
+
+<button class="btn btn-primary" routerLink="/create">Add new record</button>
+<br/>
+<br/>
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Flag</th>
+        <th scope="col">Currency</th>
+        <th scope="col">Value</th>
+        <th scope="col">Comment</th>
+        <th scope="col">Date</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let x of records | async">
+        <td>
+            <img src="/assets/flags/{{x.currency.toLowerCase()}}.svg" />
+        </td>
+        <td>{{x.currency}}</td>
+        <td>{{x.value}} Ft</td>
+        <td>{{x.comment}}</td>
+        <td>{{x.timeAdded | date: 'yyyy.MM.dd hh:mm'}}</td>
+        <td>
+            <button class="btn btn-sm btn-danger" (click)="remove(x.id)">Remove</button> &nbsp;
+            <button routerLink="/edit/{{x.id}}" class="btn btn-sm btn-warning">Edit</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>

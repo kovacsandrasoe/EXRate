@@ -1,4 +1,5 @@
 using EXRate.Backend.Data;
+using EXRate.Backend.Logic;
 using EXRate.Backend.Models;
 using EXRate.Backend.Repository;
 using EXRate.Backend.Services;
@@ -21,6 +22,7 @@ builder.Services.AddTransient<IMNBArfolyamServiceSoapClient, MNBArfolyamServiceS
 builder.Services.AddTransient<IMNBService, MNBService>();
 builder.Services.AddTransient<IRateRecordRepository, RateRecordRepository>();
 builder.Services.AddTransient<IAuthManager, AuthManager>();
+builder.Services.AddTransient<IRateLogic, RateLogic>();
 
 builder.Services.AddDbContext<EXRateContext>(options =>
                 options.UseInMemoryDatabase("db"));

@@ -6,7 +6,7 @@ namespace EXRate.Backend.Repository
     {
         Task AddRateRecordAsync(RateRecord r);
         Task DeleteRateRecordAsync(string id);
-        Task<IEnumerable<RateRecord>> GetRecords();
-        Task UpdateRecord(RateRecord r);
+        Task<IEnumerable<RateRecord>> GetRecordsAsync();
+        Task UpdateRecordAsync(RateRecord r);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using EXRate.Backend.Models;
 using MNB;
+using System.Globalization;
 using System.Xml.Linq;
 
 namespace EXRate.Backend.Services
@@ -21,8 +22,8 @@ namespace EXRate.Backend.Services
             {
                 return new Rate()
                 {
-                    Current = t.Attribute("curr")?.Value?.ToString(),
-                    Value = double.Parse(t.Value.Replace(",", "."))
+                    Currency = t.Attribute("curr")?.Value?.ToString(),
+                    Value = double.Parse(t.Value, CultureInfo.CurrentCulture)
                 };
             });
         }

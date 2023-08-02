@@ -19,4 +19,10 @@ export class ListComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  remove(id: string){
+    this.rateService.removeRecord(id).then(z => {
+      this.records = this.rateService.getRecords();
+    });
+  }
+
 }

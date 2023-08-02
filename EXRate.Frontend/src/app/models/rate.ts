@@ -1,4 +1,4 @@
 export class Rate {
-    current: string = '';
+    currency: string = '';
     value: number = 0;
 }

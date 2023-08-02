@@ -1,13 +1,13 @@
 <div>
     <div class="mb-3" *ngIf="withParam">
       <label class="form-label">Currency</label>
-      <input type="text" class="form-control" [(ngModel)]="rate.current" disabled>
+      <input type="text" class="form-control" [(ngModel)]="rate.currency" disabled>
     </div>
     <div class="mb-3" *ngIf="!withParam">
         <label class="form-label">Currency</label>
         <select class="form-select" [(ngModel)]="selectedCurrency" (change)="updateValue()" >
-            <option *ngFor="let x of rateService.rates" [value]="x.current">
-            {{x.current.toUpperCase()}} ({{x.value}} Ft)
+            <option *ngFor="let x of rates | async" [value]="x.currency">
+            {{x.currency.toUpperCase()}} ({{x.value}} Ft)
             </option>
         </select>
       </div>

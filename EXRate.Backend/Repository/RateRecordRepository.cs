@@ -31,16 +31,14 @@ namespace EXRate.Backend.Repository
             return await this.ctx.Records.FirstOrDefaultAsync(t => t.Id == id);
         }
 
-        public async Task<IEnumerable<RateRecord>> GetRecords()
+        public async Task<IEnumerable<RateRecord>> GetRecordsAsync()
         {
             return this.ctx.Records;
         }
 
-        public async Task UpdateRecord(RateRecord r)
+        public async Task UpdateRecordAsync(RateRecord r)
         {
             var old = await FindRecordById(r.Id);
-            old.Value = r.Value;
-            old.Currency = r.Currency;
             old.Comment = r.Comment;
             await this.ctx.SaveChangesAsync();
         }

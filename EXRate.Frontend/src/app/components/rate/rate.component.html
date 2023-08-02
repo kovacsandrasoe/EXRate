@@ -12,12 +12,12 @@
         <tbody>
           <tr *ngFor="let x of rates | async">
             <td>
-                <img src="/assets/flags/{{x.current.toLowerCase()}}.svg" />
+                <img src="/assets/flags/{{x.currency.toLowerCase()}}.svg" />
             </td>
-            <td>{{x.current}}</td>
+            <td>{{x.currency}}</td>
             <td>{{x.value}} Ft</td>
             <td>
-                <button routerLink="/create/{{x.current}}" class="btn btn-sm btn-secondary">Save to DB</button>
+                <button routerLink="/create/{{x.currency}}" class="btn btn-sm btn-secondary">Save to DB</button>
             </td>
           </tr>
         </tbody>
@@ -27,11 +27,11 @@
     <div class="row row-cols-1 row-cols-md-6 g-4">
         <div class="col" *ngFor="let x of rates | async">
           <div class="card">
-            <img src="/assets/flags/{{x.current.toLowerCase()}}.svg" class="card-img-top" alt="...">
+            <img src="/assets/flags/{{x.currency.toLowerCase()}}.svg" class="card-img-top" alt="...">
             <div class="card-body">
-              <h5 class="card-title">{{x.current}}</h5>
+              <h5 class="card-title">{{x.currency}}</h5>
               <p class="card-text">{{x.value}} Ft</p>
-              <button routerLink="/create/{{x.current}}" class="btn btn-sm btn-secondary">Save to DB</button>
+              <button routerLink="/create/{{x.currency}}" class="btn btn-sm btn-secondary">Save to DB</button>
             </div>
           </div>
         </div>

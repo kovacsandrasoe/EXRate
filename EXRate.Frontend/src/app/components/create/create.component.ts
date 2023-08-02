@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { Rate } from 'src/app/models/rate';
 import { Raterecord } from 'src/app/models/raterecord';
 import { RateService } from 'src/app/services/rate.service';
@@ -15,17 +16,21 @@ export class CreateComponent implements OnInit {
   selectedCurrency: string = '';
   withParam: boolean = false;
   record: Raterecord = new Raterecord();
+  rates !: Observable<Rate[]>;
 
   constructor(private route: ActivatedRoute, public rateService: RateService, private router: Router) {
+    this.rates = rateService.getRates();
     rateService.getRates().subscribe(z => {
       this.route.params.subscribe(t => {
-        rateService.findByCurrency(t['id']).then(z => {
-          this.rate = z;
-          if (this.rate.current == ''){
-            this.router.navigate(['rate']);
-          }
-          this.withParam = true;
-        });
+        if (t['id'] != undefined){
+          rateService.findByCurrency(t['id']).then(z => {
+            this.rate = z;
+            if (this.rate.currency == ''){
+              this.router.navigate(['rate']);
+            }
+            this.withParam = true;
+          });
+        }
       });
     });
   }
@@ -37,8 +42,10 @@ export class CreateComponent implements OnInit {
   }
 
   send(){
-    this.record.currency = this.rate.current;
-    this.rateService.addRecord(this.record);
+    this.record.currency = this.rate.currency;
+    this.rateService.addRecord(this.record).then(z => {
+      this.router.navigate(['list']);
+    })
   }
 
   ngOnInit(): void {

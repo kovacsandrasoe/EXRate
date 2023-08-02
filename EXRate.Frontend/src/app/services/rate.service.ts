@@ -9,10 +9,9 @@ import { AuthService } from './auth.service';
 })
 export class RateService {
 
-  public rates : Rate[] = [];
-
   private url: string = 'https://localhost:7050/rate';
   private urlRecord: string = 'https://localhost:7050/raterecord';
+  
   constructor(private auth: AuthService, private http: HttpClient) {
     
   }
@@ -20,7 +19,21 @@ export class RateService {
   findByCurrency(curr: string){
     return new Promise<Rate>((resolve, reject) => {
       this.getRates().subscribe(t => {
-        let r = t.find(z => z.current.toUpperCase() == curr.toUpperCase());
+        let r = t.find(z => z.currency.toUpperCase() == curr.toUpperCase());
+        if (r != undefined){
+          resolve(r);
+        }
+        else{
+          reject();
+        }
+      })
+    })
+  }
+
+  findRecordById(id: string){
+    return new Promise<Raterecord>((resolve, reject) => {
+      this.getRecords().subscribe(t => {
+        let r = t.find(z => z.id == id);
         if (r != undefined){
           resolve(r);
         }
@@ -41,6 +54,28 @@ export class RateService {
   addRecord(record: Raterecord){
     return new Promise<void>((resolve, reject) => {
       this.http.post(this.urlRecord, record, {headers: this.getHeaders()}).subscribe({
+        next: (v) => {
+          resolve();
+        },
+        error: (e) => reject()
+      })
+    })
+  }
+
+  updateRecord(record: Raterecord){
+    return new Promise<void>((resolve, reject) => {
+      this.http.put(this.urlRecord, record, {headers: this.getHeaders()}).subscribe({
+        next: (v) => {
+          resolve();
+        },
+        error: (e) => reject()
+      })
+    })
+  }
+
+  removeRecord(id: string){
+    return new Promise<void>((resolve, reject) => {
+      this.http.delete(this.urlRecord + '/' + id, {headers: this.getHeaders()}).subscribe({
         next: (v) => {
           resolve();
         },

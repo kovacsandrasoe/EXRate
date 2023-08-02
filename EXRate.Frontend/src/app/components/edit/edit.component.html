@@ -1,1 +1,19 @@
-<p>edit works!</p>
+<div>
+    <div class="mb-3">
+      <label class="form-label">Currency</label>
+      <input type="text" class="form-control" [(ngModel)]="record.currency" disabled>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Value</label>
+      <input type="number" class="form-control" [(ngModel)]="record.value" disabled>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Added</label>
+        <input type="datetime" class="form-control" [value]="record.timeAdded | date: 'yyyy.MM.dd hh:mm'" disabled>
+      </div>
+    <div class="mb-3">
+        <label class="form-label">Comment</label>
+        <input type="text" class="form-control" [(ngModel)]="record.comment">
+      </div>
+    <button type="submit" class="btn btn-primary" (click)="edit()">Save</button>
+</div>

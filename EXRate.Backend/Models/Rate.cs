@@ -2,7 +2,7 @@
 {
     public class Rate
     {
-        public string? Current { get; set; }
+        public string? Currency { get; set; }
 
         public double Value { get; set; }
     }

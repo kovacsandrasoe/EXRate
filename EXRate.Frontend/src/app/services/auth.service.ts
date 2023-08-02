@@ -4,6 +4,7 @@ import { Tokenmodel } from '../viewmodels/tokenmodel';
 import { Loginmodel } from '../viewmodels/loginmodel';
 import { throwError } from 'rxjs';
 import { CanActivate, Router } from '@angular/router';
+import { Registermodel } from '../viewmodels/registermodel';
 
 @Injectable({
   providedIn: 'root'
@@ -28,12 +29,24 @@ export class AuthService implements CanActivate {
     })
   }
 
+  async register(rm: Registermodel) {
+    return new Promise<void>((resolve, reject) => {
+      this.http.put(this.url, rm).subscribe({
+        next: (v) => {
+          resolve();
+        },
+        error: (e) => reject(e)
+      })
+    })
+  }
+
   isLoggedIn(): boolean{
     return localStorage.getItem('token') != null;
   }
 
   logout(){
     localStorage.clear();
+    this.router.navigate(['login']);
   }
 
   canActivate(): boolean {

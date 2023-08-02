@@ -25,7 +25,8 @@ builder.Services.AddTransient<IAuthManager, AuthManager>();
 builder.Services.AddTransient<IRateLogic, RateLogic>();
 
 builder.Services.AddDbContext<EXRateContext>(options =>
-                options.UseInMemoryDatabase("db"));
+                     options.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]));
+                //options.UseInMemoryDatabase("db"));
 builder.Services.AddCors();
 
 builder.Services.AddIdentity<AppUser, IdentityRole>(

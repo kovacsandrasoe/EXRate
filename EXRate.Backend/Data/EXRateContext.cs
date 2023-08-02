@@ -11,7 +11,7 @@ namespace EXRate.Backend.Data
 
         public EXRateContext(DbContextOptions<EXRateContext> ctx) : base(ctx)
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
